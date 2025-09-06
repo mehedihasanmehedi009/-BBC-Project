@@ -18,13 +18,32 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        font-family: "Noto Serif Bengali", serif;
+      }
+    </style>
   </head>
   <body>
-    <h1 style="color: blue; font-size: medium; text-align: center">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis
-      delectus, tempore facere vero facilis veritatis nemo inventore corrupti ut
-      similique libero eum quae nam consequuntur, sequi quibusdam hic suscipit
-      architecto.
-    </h1>
+    <header>
+      <div class="bg-red-600 py-4">
+        <div class="max-w-7xl mx-auto px-5">
+          <img class="invert" src="img/logo.svg" alt="" />
+        </div>
+      </div>
+      <nav class="border-b border-slate-200">
+        <ul
+          id="Categories-Container"
+          class="flex gap-5 text-lg max-w-7xl mx-auto px-5"
+        ></ul>
+      </nav>
+    </header>
+    <script src="./index.js"></script>
   </body>
 </html>
