@@ -2,6 +2,10 @@ const CategoriesContainer = document.getElementById("Categories-Container");
 const NewsContainer = document.getElementById("newsContainer");
 const BookMarekContainer = document.getElementById("BookMarek-Container");
 const countBookmark = document.getElementById("count-Bookmark");
+const newsmodel = document.getElementById("my_modal_1");
+
+const modalcontyner = document.getElementById("modal-contyner");
+
 let Bookmarks = [];
 // heder function
 const LoadCategories = () => {
@@ -57,6 +61,8 @@ const showNewsByCategorys = (articles) => {
 <h1 class="font-bold text-center mt-4 p-2">${article.title}</h1>
 <p class=" mt-2 text-center">${article.time}</p>
  <button class='btn'>BookMark </button>
+ <button " class='btn'>View Details </button>
+ 
  </div>
    </div>`;
   });
@@ -67,6 +73,9 @@ NewsContainer.addEventListener("click", (e) => {
   if (e.target.innerText === "BookMark") {
     // console.log("BookMark btn clicked");
     handelBookmark(e);
+  }
+  if (e.target.innerText === "View Details") {
+    handelViewDetails(e);
   }
 });
 
@@ -100,6 +109,29 @@ const handelDeleteBookmark = (BookmarkId) => {
   );
   Bookmarks = BookmarksFilter;
   showBookmark(Bookmarks);
+};
+const handelViewDetails = (e) => {
+  const id = e.target.parentNode.id;
+  fetch(`https://news-api-fs.vercel.app/api/news/${id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      showDetailsNews(data.article);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  // newsmodel.showModal();
+};
+const showDetailsNews = (article) => {
+  // console.log(article);
+  newsmodel.showModal();
+  modalcontyner.innerHTML = `
+  <h1>${article.title}</h1>
+<img src="${article.images[0].url}" alt="" />
+<p>${article.content.join("")}</p>
+  
+  `;
 };
 
 const showloading = () => {
