@@ -1,5 +1,6 @@
 const CategoriesContainer = document.getElementById("Categories-Container");
 const NewsContainer = document.getElementById("news-container");
+const BookMarekContainer = document.getElementById("BookMarek-Container");
 
 // heder function
 const LoadCategories = () => {
@@ -40,15 +41,23 @@ const showNewsByCategorys = (articles) => {
   NewsContainer.innerHTML = "";
   articles.forEach((article) => {
     NewsContainer.innerHTML += `
-   <div >
+   <div class="rounded-lg border-2 border-gray-300" >
     <div>
   <img src="${article.image.srcset[5].url}" alt="" />
 </div>
-<h1>${article.title}</h1>
-<p>${article.time}</p>
+<h1 class="font-bold text-center mt-4 p-2">${article.title}</h1>
+<p class=" mt-2 text-center">${article.time}</p>
+ <button class='btn'>BookMark </button>
    </div>`;
   });
 };
+NewsContainer.addEventListener("click", (e) => {
+  // console.log(e.target.innerText);
+  if (e.target.innerText === "BookMark") {
+    console.log("BookMark btn clicked");
+    console.log(e.target.parentNode.parentNode.children);
+  }
+});
 
 LoadCategories();
 LoadNewsCategories("main");
