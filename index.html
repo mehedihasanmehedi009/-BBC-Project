@@ -46,17 +46,18 @@
     </header>
     <main class="max-w-7xl mx-auto px-5 mt-6 gap-5 grid md:grid-cols-4">
       <div
-        class="grid md:grid-cols-3 grid-cols-2 gap-5 md:col-span-3 col-span-1"
-        id="news-container"
+        class="grid md:grid-cols-3 grid-cols-1 gap-5 md:col-span-3 col-span-1"
+        id="newsContainer"
       ></div>
       <div
         class="col-span-1 border-2 border-gray-200 rounded-lg overflow-hidden"
       >
-        <div class="bg-red-500 text-white p-2">
+        <div class="bg-red-500 text-white p-2 flex justify-between">
           <h1>BookMark</h1>
+          <p id="count-Bookmark">0</p>
         </div>
+        <div class="p-4" id="BookMarek-Container"></div>
       </div>
-      <div id="BookMarek-Container"></div>
     </main>
     <script src="./index.js"></script>
   </body>

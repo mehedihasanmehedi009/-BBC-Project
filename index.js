@@ -1,7 +1,8 @@
 const CategoriesContainer = document.getElementById("Categories-Container");
-const NewsContainer = document.getElementById("news-container");
+const NewsContainer = document.getElementById("newsContainer");
 const BookMarekContainer = document.getElementById("BookMarek-Container");
-
+const countBookmark = document.getElementById("count-Bookmark");
+let Bookmarks = [];
 // heder function
 const LoadCategories = () => {
   fetch("https://news-api-fs.vercel.app/api/categories")
@@ -19,6 +20,8 @@ const Display = (mun) => {
   });
   CategoriesContainer.addEventListener("click", (e) => {
     const allLi = document.querySelectorAll("li");
+
+    showloading();
     allLi.forEach((li) => li.classList.remove("border-b-4"));
     if (e.target.localName === "li") e.target.classList.add("border-b-4");
     LoadNewsCategories(e.target.id);
@@ -34,30 +37,85 @@ const LoadNewsCategories = (categoryId) => {
       showNewsByCategorys(data.articles);
     })
     .catch((err) => {
-      console.log(err);
+      showError();
+      alert("Something went wrong");
     });
 };
 const showNewsByCategorys = (articles) => {
+  if (articles.length == 0) {
+    showEmptyMessage();
+    alert("Something went wrong");
+    return;
+  }
   NewsContainer.innerHTML = "";
   articles.forEach((article) => {
+    // console.log(article);
     NewsContainer.innerHTML += `
    <div class="rounded-lg border-2 border-gray-300" >
-    <div>
-  <img src="${article.image.srcset[5].url}" alt="" />
-</div>
+  <img class=" w-full" src="${article.image.srcset[5].url}" alt="" />
+   <div id="${article.id}" class=" p-2">
 <h1 class="font-bold text-center mt-4 p-2">${article.title}</h1>
 <p class=" mt-2 text-center">${article.time}</p>
  <button class='btn'>BookMark </button>
+ </div>
    </div>`;
   });
 };
 NewsContainer.addEventListener("click", (e) => {
+  // console.log(e.target);
   // console.log(e.target.innerText);
   if (e.target.innerText === "BookMark") {
-    console.log("BookMark btn clicked");
-    console.log(e.target.parentNode.parentNode.children);
+    // console.log("BookMark btn clicked");
+    handelBookmark(e);
   }
 });
 
+const handelBookmark = (e) => {
+  const title = e.target.parentNode.children[0].innerText;
+  const id = e.target.parentNode.id;
+  Bookmarks.push({
+    title: title,
+    id: id,
+  });
+  showBookmark(Bookmarks);
+  countBookmark.innerText = Bookmarks.length;
+};
+
+const showBookmark = (BookMarks) => {
+  BookMarekContainer.innerHTML = "";
+  console.log(BookMarks);
+  BookMarks.forEach((BookMark) => {
+    BookMarekContainer.innerHTML += `
+    <div class=" border border-gray-300 my-2 rounded-lg">
+  <h1 class =" text-center p-2">${BookMark.title}</h1>
+   <button onclick="handelDeleteBookmark('${BookMark.id}')" class="btn">Delete</button>
+ 
+</div>
+    `;
+  });
+};
+const handelDeleteBookmark = (BookmarkId) => {
+  const BookmarksFilter = Bookmarks.filter(
+    (BookMark) => BookMark.id !== BookmarkId
+  );
+  Bookmarks = BookmarksFilter;
+  showBookmark(Bookmarks);
+};
+
+const showloading = () => {
+  NewsContainer.innerHTML = `
+      <div>loading...</div>
+  `;
+};
+const showError = () => {
+  NewsContainer.innerHTML = `
+      <div class="">Something went wrong</div>
+  `;
+};
+const showEmptyMessage = () => {
+  NewsContainer.innerHTML = `
+      <div class="">No News Found for this categories</div>
+  `;
+};
 LoadCategories();
 LoadNewsCategories("main");
